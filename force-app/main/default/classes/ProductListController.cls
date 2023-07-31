@@ -1,13 +1,14 @@
 public with sharing class ProductListController {
 
     @AuraEnabled(cacheable = true)
-    public static List<PricebookEntry> getActiveProducts() {
+    public static List<PricebookEntry> getActiveProducts(Integer queryLimit, Integer offset) {
         try {
             return [
                 SELECT Id, Name, Product2Id, Product2.Name, UnitPrice
                 FROM PricebookEntry 
                 WHERE IsActive = true AND Pricebook2.IsStandard = true
-                LIMIT 100
+                LIMIT :queryLimit
+                OFFSET :offset
             ];
         } catch (Exception e) {
             throw new AuraHandledException(e.getMessage());
@@ -16,8 +17,6 @@ public with sharing class ProductListController {
 
     @AuraEnabled
     public static void addOrderItem(String orderId, PricebookEntry product) {
-        // to do :check if orderId is not null or if record id is not of order
-        // to do:if pricebook2Id is not set on order check and update
         try {
             Map<Id, OrderItem> itemMap = new Map<Id, OrderItem>();
 
