@@ -1,0 +1,38 @@
+<template>
+    
+        <lightning-card title="Order" icon-name="standard:orders" size="small">
+            <template if:false={recordId}>
+                <div class="slds-box slds-box_x-small slds-m-around_small">
+                    <p>Order not available.</p>
+                </div>
+            </template>
+
+            <template if:true={orderItems.data}>
+                <div>
+                    <lightning-datatable
+                        key-field="Id"
+                        data={orderItems.data}
+                        columns={orderItemColumns}
+                        show-row-number-column
+                        hide-checkbox-column
+                        onrowaction={handleRowAction}>
+                    </lightning-datatable>
+                </div>
+
+                <div class="slds-box slds-box_x-small slds-m-around_small">
+                    <ul class="slds-has-dividers_bottom-space">
+                    <template for:each={calculatedSubtotals} for:item="subtotal">
+                        <li key={subtotal.Name}>
+                            {subtotal.Name} Subtotal : <lightning-formatted-number value={subtotal.TotalPrice} 
+                                format-style="currency" currency-code="EUR"></lightning-formatted-number>
+                        </li>
+                    </template>
+                
+                    <li class="slds-text-title_bold">Total order price : <lightning-formatted-number value={orderTotal} 
+                        format-style="currency" currency-code="EUR"></lightning-formatted-number></li>
+                    </ul>
+                </div>
+            </template>
+        </lightning-card>
+        
+</template>

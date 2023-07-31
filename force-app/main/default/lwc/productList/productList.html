@@ -1,0 +1,18 @@
+<template>
+    
+    <lightning-card title="Active Products" icon-name="standard:product" size="small">
+        <div>
+            <template if:true={products.data}>
+                <lightning-datatable
+                    key-field="Id"
+                    data={products.data}
+                    columns={prodColumns}
+                    show-row-number-column
+                    hide-checkbox-column
+                    onrowaction={handleRowAction}>
+                </lightning-datatable>
+            </template>
+        </div>
+    </lightning-card>
+
+</template>
