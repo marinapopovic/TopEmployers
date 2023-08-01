@@ -1,7 +1,7 @@
 <template>
     
     <lightning-card title="Active Products" icon-name="standard:product" size="small">
-        <div style="height: 400px">
+        <div class="product-table">
             <template if:true={productRecords}>
                 <lightning-datatable
                     key-field="Id"
