@@ -7,14 +7,14 @@
     <flexiPageRegions>
         <itemInstances>
             <componentInstance>
-                <componentName>orderItemList</componentName>
-                <identifier>c_orderItemList</identifier>
+                <componentName>productList</componentName>
+                <identifier>c_productList</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
             <componentInstance>
-                <componentName>productList</componentName>
-                <identifier>c_productList</identifier>
+                <componentName>orderItemList</componentName>
+                <identifier>c_orderItemList</identifier>
             </componentInstance>
         </itemInstances>
         <name>region2</name>

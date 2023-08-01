@@ -11,10 +11,10 @@ import { CurrentPageReference } from 'lightning/navigation';
 export default class OrderItemList extends LightningElement {
     actions = [{ label: 'Delete', name: 'delete' }];
     orderItemColumns = [
-        { label: 'Name', fieldName: 'OrderItemNumber', type: 'text' },
+        { label: 'Name', fieldName: 'Name', type: 'text' },
         { label: 'Unit Price', fieldName: 'UnitPrice', type: 'currency' },
         { label: 'Quantity', fieldName: 'Quantity', type: 'number' },
-        { label: 'Total Price', fieldName:'TotalPrice', type: 'currency' },
+        { label: 'Total Price', fieldName: 'TotalPrice', type: 'currency' },
         {
             type: 'action',
             typeAttributes: { rowActions: this.actions }
@@ -23,6 +23,8 @@ export default class OrderItemList extends LightningElement {
     subscription = null;
     recordId = '';
     error = '';
+    allResult = [];
+    items = [];
 
     @wire(MessageContext) messageContext;
     @wire(CurrentPageReference) setParamethers(currentPageReference) {
@@ -30,7 +32,23 @@ export default class OrderItemList extends LightningElement {
             this.recordId = currentPageReference.state?.c__recordId;
         }
     }
-    @wire(getOrderItems, {orderId: '$recordId'}) orderItems;
+    @wire(getOrderItems, {orderId: '$recordId'}) orderItems (result) {
+        this.allResult = result;
+        if (result.data) {
+            this.items = result.data.map((elem) => ({
+                ...elem,
+                ...{
+                    'Name': elem.Product2.Name,
+                    'UnitPrice': elem.UnitPrice,
+                    'Quantity': elem.Quantity,
+                    'TotalPrice': elem.TotalPrice,
+                    'Family': elem.Product2.Family
+                }
+            }));
+        } else if (result.error) {
+            this.error = result.error;
+        }
+    }
     @wire(getRecord, {recordId : '$recordId', fields: [ORDER_TOTAL]}) order;
     
     get orderTotal() {
@@ -39,8 +57,8 @@ export default class OrderItemList extends LightningElement {
     
     get calculatedSubtotals() {
         let familyOrderItemMap = new Map();
-        this.orderItems.data.forEach(element => {
-            let family = element.Product2.Family;
+        this.items.forEach(element => {
+            let family = element.Family;
             if (family === '' || family === undefined) {
                 family = 'None';
             }
@@ -54,7 +72,6 @@ export default class OrderItemList extends LightningElement {
                 familyOrderItemMap.set(family, familyItem);
             }
         });
-        // to do : check
         return Array.from(familyOrderItemMap.values());  
     }
 
@@ -87,8 +104,8 @@ export default class OrderItemList extends LightningElement {
     }
 
     refreshVariables() {
-        refreshApex(this.orderItems);
         refreshApex(this.order);
+        refreshApex(this.allResult);
     }
 
     subscribeToMessageChannel() {
