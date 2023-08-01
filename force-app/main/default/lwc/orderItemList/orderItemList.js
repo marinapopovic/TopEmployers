@@ -21,7 +21,7 @@ export default class OrderItemList extends LightningElement {
         }
     ];
     subscription = null;
-    recordId = '';
+    recordId;
     error = '';
     allResult = [];
     items = [];
