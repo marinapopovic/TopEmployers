@@ -48,5 +48,13 @@
         <members>Admin</members>
         <name>Profile</name>
     </types>
+    <types>
+        <members>Order</members>
+        <name>Settings</name>
+    </types>
+    <types>
+        <members>Order</members>
+        <name>CustomObject</name>
+    </types>
     <version>57.0</version>
 </Package>
