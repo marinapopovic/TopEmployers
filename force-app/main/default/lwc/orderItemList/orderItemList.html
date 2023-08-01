@@ -9,14 +9,21 @@
 
             <template if:true={recordId}>
                 <div>
-                    <lightning-datatable
-                        key-field="Id"
-                        data={items}
-                        columns={orderItemColumns}
-                        show-row-number-column
-                        hide-checkbox-column
-                        onrowaction={handleRowAction}>
-                    </lightning-datatable>
+                    <template if:true={items}>
+                        <lightning-datatable
+                            key-field="Id"
+                            data={items}
+                            columns={orderItemColumns}
+                            show-row-number-column
+                            hide-checkbox-column
+                            onrowaction={handleRowAction}>
+                        </lightning-datatable>
+                    </template>
+                    <template if:true={empty}>
+                        <div class="slds-box slds-box_x-small slds-m-around_small">
+                            <p>No order items available.</p>
+                        </div>
+                    </template>
                 </div>
 
                 <div class="slds-box slds-box_x-small slds-m-around_small">

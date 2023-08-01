@@ -25,6 +25,7 @@ export default class OrderItemList extends LightningElement {
     error = '';
     allResult = [];
     items = [];
+    empty = false;
 
     @wire(MessageContext) messageContext;
     @wire(CurrentPageReference) setParamethers(currentPageReference) {
@@ -35,6 +36,7 @@ export default class OrderItemList extends LightningElement {
     @wire(getOrderItems, {orderId: '$recordId'}) orderItems (result) {
         this.allResult = result;
         if (result.data) {
+            this.empty = result.data.length === 0;
             this.items = result.data.map((elem) => ({
                 ...elem,
                 ...{
