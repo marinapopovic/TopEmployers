@@ -7,11 +7,11 @@
                 </div>
             </template>
 
-            <template if:true={orderItems.data}>
+            <template if:true={items}>
                 <div>
                     <lightning-datatable
                         key-field="Id"
-                        data={orderItems.data}
+                        data={items}
                         columns={orderItemColumns}
                         show-row-number-column
                         hide-checkbox-column

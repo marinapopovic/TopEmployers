@@ -5,8 +5,8 @@ public with sharing class OrderItemListController {
         try {
             List<OrderItem> orderItems = new List<OrderItem>();
             orderItems = [
-                SELECT Id, OrderItemNumber, Quantity, Product2.Family,
-                    Product2Id, UnitPrice, TotalPrice
+                SELECT Id, Quantity, UnitPrice, TotalPrice,
+                    Product2Id, Product2.Family, Product2.Name
                 FROM OrderItem
                 WHERE OrderId = :orderId
             ];
