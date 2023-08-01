@@ -22,6 +22,7 @@ export default class OrderItemList extends LightningElement {
     ];
     subscription = null;
     recordId = '';
+    error = '';
 
     @wire(MessageContext) messageContext;
     @wire(CurrentPageReference) setParamethers(currentPageReference) {
@@ -73,7 +74,6 @@ export default class OrderItemList extends LightningElement {
             this.refreshVariables();
         })
         .catch(error => {
-            console.log(error);
             this.error = error;
         });
     }

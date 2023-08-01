@@ -1,15 +1,17 @@
 <template>
     
     <lightning-card title="Active Products" icon-name="standard:product" size="small">
-        <div>
-            <template if:true={products.data}>
+        <div style="height: 400px">
+            <template if:true={productRecords}>
                 <lightning-datatable
                     key-field="Id"
-                    data={products.data}
+                    data={productRecords}
                     columns={prodColumns}
                     show-row-number-column
                     hide-checkbox-column
-                    onrowaction={handleRowAction}>
+                    onrowaction={handleRowAction}
+                    enable-infinite-loading
+                    onloadmore={loadMoreData}>
                 </lightning-datatable>
             </template>
         </div>

@@ -31,7 +31,9 @@ public with sharing class TestProductListController {
     public static void testGetActiveProducts() {
         Test.startTest();
         //get all active product entries
-        List<PricebookEntry> entryList = ProductListController.getActiveProducts();
+        Integer queryLimit = 50;
+        Integer offset = 50;
+        List<PricebookEntry> entryList = ProductListController.getActiveProducts(queryLimit, offset);
         Assert.isTrue(entryList.size() > 0);
         Test.stopTest();
     }

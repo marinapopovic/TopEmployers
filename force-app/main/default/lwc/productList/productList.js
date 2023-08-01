@@ -19,6 +19,14 @@ export default class ProductList extends LightningElement {
         }
     ];
     recordId = '';
+    rowLimit = 50;
+    rowOffset = 0;
+    productRecords = [];
+    hasMore = true;
+
+    connectedCallback() {
+        this.loadProducts();
+    }
 
     @wire(MessageContext) messageContext;
     @wire(CurrentPageReference) setParamethers(currentPageReference) {
@@ -26,7 +34,15 @@ export default class ProductList extends LightningElement {
             this.recordId = currentPageReference.state?.c__recordId;
         }
     }
-    @wire(getProducts) products;
+    
+    loadProducts() {
+        return getProducts({queryLimit : this.rowLimit, offset : this.rowOffset})
+        .then(result => {
+            let updatedRecords = [...this.productRecords, ...result];
+            this.productRecords = updatedRecords;
+            this.hasMore = result.length === this.rowLimit;
+        }).catch(error => { console.log(error) });
+    }
 
     handleRowAction(event) {
         const actionName = event.detail.action.name;
@@ -36,6 +52,20 @@ export default class ProductList extends LightningElement {
                 this.add(row);
                 break;
         }
+    }
+
+    loadMoreData(event) {
+        if (!this.hasMore) {
+            return;
+        }
+
+        const { target } = event;
+        target.isLoading = true;
+        this.rowOffset = this.rowOffset + this.rowLimit;
+        this.loadProducts()
+        .then(()=> {
+            target.isLoading = false;
+        });
     }
 
     add(row) {
