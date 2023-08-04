@@ -23,7 +23,7 @@ sfdx force:auth:web:login --setalias youralias --instanceurl https://login.sales
 
 After the org is authorised the code can be deployed either by right clicking on force-app folder and selecting `SFDX: Deploy Source to Org` or by running a command:
 ```
-deploy sfdx force:source:deploy --sourcepath "force-app/main/default"
+sfdx force:source:deploy --sourcepath "force-app/main/default"
 ```
 
 Once this is successfully deployed you can go Setup > Object Manager > Order object > Page layouts. Edit Order layout and add Manage Order button to the page. Now when you create a new Order, you can click Manage order button and use the page. 
